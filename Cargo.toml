@@ -1,0 +1,17 @@
+# Copyright 2022 Heath Stewart.
+# Licensed under the MIT License. See LICENSE.txt in the project root for license information.
+
+[package]
+name = "msitrace"
+version = "0.1.0"
+edition = "2021"
+authors = ["Heath Stewart (heaths)"]
+description = """
+Traces actions during a Windows Installer installation.
+"""
+license = "MIT"
+homepage = "https://github.com/heaths/msitrace"
+repository = "https://github.com/heaths/msitrace"
+
+[dependencies]
+clap = { version = "4.0.18", features = ["cargo", "derive"] }
