@@ -2,8 +2,14 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "canonicalize",
     "LPSTR",
-    "repr"
+    "LPCSTR",
+    "msbuild",
+    "msiexec",
+    "msitrace",
+    "repr",
+    "wixproj"
   ],
   "overrides": [
     {

@@ -1,8 +1,10 @@
 // Copyright 2022 Heath Stewart.
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+use std::ffi::NulError;
 use std::fmt::Display;
 use std::string::FromUtf8Error;
+use time::OffsetDateTime;
 
 mod ffi;
 
@@ -51,4 +53,36 @@ impl From<FromUtf8Error> for Error {
             kind: ErrorKind::Other(Box::new(err)),
         }
     }
+}
+
+impl From<NulError> for Error {
+    fn from(err: NulError) -> Self {
+        Error {
+            kind: ErrorKind::Other(Box::new(err)),
+        }
+    }
+}
+
+pub use ffi::UILevel;
+pub fn install(
+    path: &str,
+    log: Option<String>,
+    ui: UILevel,
+    properties: Vec<String>,
+) -> Result<()> {
+    let command_line = properties.join(" ");
+
+    ffi::set_internal_ui(ui);
+    if let Some(log) = log {
+        ffi::enable_log(log.as_str())?;
+    }
+
+    ffi::set_external_handler(|message, record| {
+        let now = OffsetDateTime::now_local().unwrap_or_else(|_| OffsetDateTime::now_utc());
+        println!("{:?} ({:?}) {}", now, message, record);
+
+        ffi::HandlerResult::Default
+    })?;
+
+    ffi::install_package(path, command_line.as_str())
 }

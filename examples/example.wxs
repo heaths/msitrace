@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2022 Heath Stewart.
+  Licensed under the MIT License. See LICENSE.txt in the project root for license information.
+-->
+
+<?if $(var.Platform) = "x64" ?>
+<?define ProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else ?>
+<?define ProgramFilesFolder = "ProgramFilesFolder" ?>
+<?endif ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Example (msitrace)" Version="0.1.0" Manufacturer="Heath Stewart" Language="1033">
+    <Package InstallerVersion="500" InstallScope="perUser" Compressed="yes" />
+    <MediaTemplate EmbedCab="yes" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="$(var.ProgramFilesFolder)" Name="Program Files">
+        <Directory Id="ManufacturerDir" Name="!(bind.property.Manufacturer)">
+          <Directory Id="INSTALLDIR" Name="!(bind.property.ProductName)" />
+        </Directory>
+      </Directory>
+    </Directory>
+    <Feature Id="Complete" AllowAdvertise="no" ConfigurableDirectory="INSTALLDIR">
+      <Component Directory="INSTALLDIR">
+        <File Source="$(sys.SOURCEFILEPATH)" />
+      </Component>
+    </Feature>
+    <Property Id="ALLUSERS" Value="2" />
+    <Property Id="MSIINSTALLPERUSER" Value="1" />
+    <InstallExecuteSequence>
+      <!-- Allow MSI to be installed repeatedly without registering. -->
+      <PublishFeatures Suppress="yes" />
+      <PublishProduct Suppress="yes" />
+      <RegisterProduct Suppress="yes" />
+      <RegisterUser Suppress="yes" />
+    </InstallExecuteSequence>
+  </Product>
+</Wix>

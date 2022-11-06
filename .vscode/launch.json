@@ -1,0 +1,63 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'msitrace'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=msitrace"
+                ],
+                "filter": {
+                    "name": "msitrace",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'msitrace'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=msitrace",
+                    "--package=msitrace"
+                ],
+                "filter": {
+                    "name": "msitrace",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+              "target\\debug\\example.msi"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'msitrace'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=msitrace",
+                    "--package=msitrace"
+                ],
+                "filter": {
+                    "name": "msitrace",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
